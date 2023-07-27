@@ -1,2 +1,0 @@
-# haqq-telegram-faucet
- 
