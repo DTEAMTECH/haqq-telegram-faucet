@@ -8,13 +8,12 @@ from src.states import Network
 from aiogram.types.callback_query import CallbackQuery
 from aiogram.fsm.storage.memory import MemoryStorage
 
-
 import src.keyboards
 import src.text
 import re
 import time
 
-storage=MemoryStorage()
+storage = MemoryStorage()
 router = Router()
 
 def is_valid_address(text):
@@ -46,23 +45,18 @@ async def get_testnet_hash(msg: Message, state: FSMContext):
         await state.update_data(user_cooldown_mainnet=0)
         data = await state.get_data()
 
-
-
     if data['user_cooldown_testnet'] == 0 or current_time - data['user_cooldown_testnet'] >= cooldown_time:
         if is_valid_address(user_address):
             tran_link = send_testnet_tran(user_address)
             await msg.answer(src.text.success_tran_message.format(network='testnet'))
             await msg.answer(tran_link)
             await msg.answer(src.text.use_again)
-            state.set_state(state=None)
-
             await state.update_data(user_cooldown_testnet=time.time())
         else:            
             await msg.answer(src.text.incorrect_address_message)      
     else:
         await msg.answer(src.text.cooldown_message.format(network='testnet'))
         await msg.answer(src.text.use_again)
-        state.set_state(state=None)
 
 
 
@@ -84,6 +78,7 @@ async def get_mainnet_hash(msg: Message, state: FSMContext):
     if data == {}:
         await state.update_data(user_cooldown_testnet=0)
         await state.update_data(user_cooldown_mainnet=0)
+        data = await state.get_data()
     
     if data['user_cooldown_mainnet'] == 0 or current_time - data['user_cooldown_mainnet'] >= cooldown_time:
         if is_valid_address(user_address):
@@ -91,13 +86,9 @@ async def get_mainnet_hash(msg: Message, state: FSMContext):
             await msg.answer(src.text.success_tran_message.format(network='mainnet'))
             await msg.answer(tran_link)
             await msg.answer(src.text.use_again)
-            state.set_state(state=None)
-
             await state.update_data(user_cooldown_mainnet=time.time())
-
         else:
             await msg.answer(src.text.incorrect_address_message)  
     else:
         await msg.answer(src.text.cooldown_message.format(network='mainnet'))
         await msg.answer(src.text.use_again)
-        state.set_state(state=None)
