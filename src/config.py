@@ -1,3 +1,3 @@
-token = '' #telegram bot token
-MNEMONIC = '' #faucet wallet mnemonic
-private_key = '' #faucet wallet priv_key
+TOKEN = ''
+FAUCET_ADDRESS = ''
+PRIVATE_KEY = ''
