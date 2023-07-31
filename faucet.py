@@ -4,12 +4,12 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.enums.parse_mode import ParseMode
 
-from src.config import token
+from src.config import TOKEN
 from src.handlers import router
 from src.handlers import storage
 
 async def main():
-    bot = Bot(token, parse_mode=ParseMode.HTML)
+    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
     
     dp = Dispatcher(storage=storage)
     dp.include_router(router)
